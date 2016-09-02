@@ -1,1 +1,70 @@
-你好
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background-color:violet;
+				position:absolute;
+				top:400px;
+				left:400px;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				var box = document.getElementById('box');
+				
+				box.onmousedown =function(e) {
+					var x = e.clientX;
+					var y = e.clientY;
+					var boxl = box.offsetLeft;
+					var boxt = box.offsetTop;
+					var boxw = box.offsetWidth;
+					var boxh = box.offsetHeight;
+					var direction = '';
+
+					if(x<boxl+10) {
+						direction = 'left';
+					}else if(x>boxl+boxw-10) {
+						direction = 'right';
+					}else if(y<boxt+10) {
+						direction = 'top';
+					}else if(y>boxt+boxh-10) {
+						direction = 'bottom';
+					}
+					
+					document.onmousemove = function(e) {
+						var newx = e.clientX;
+						var newy = e.clientY;
+						
+						switch(direction) {
+							case 'left':
+								box.style.width = boxw-(newx-x)+'px';
+								box.style.left = boxl+(newx-x)+'px';
+								break;
+							case 'right':
+								box.style.width = boxw+(newx-x)+'px';
+								break;
+							case 'top':
+								box.style.height = boxh-(newy-y)+'px';
+								box.style.top = boxt+(newy-y)+'px';
+								break;
+							case 'bottom':
+								box.style.height = boxh+(newy-y)+'px';
+								break;
+						}
+					}
+					box.onmouseup = function() {
+						document.onmousemove = null;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="box"></div>
+	</body>
+</html>
